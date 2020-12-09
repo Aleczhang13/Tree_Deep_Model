@@ -7,7 +7,7 @@ import numpy as np
 from construct_tree import TreeInitialize
 
 
-LOAD_DIR = 'C:\Users\\t-chzhang\Desktop\\tree-based-deep-model\Tree_Deep_Model-older\UserBehavior\userbehavir.csv'
+LOAD_DIR = './UserBehavior/userbehavir.csv'
 
 
 def _time_window_stamp():
@@ -62,8 +62,10 @@ def data_process():
     time_window = _time_window_stamp()
     data_raw['timestamp'] = data_raw.timestamp.apply(_time_converter, args=(time_window,))
 
+
     random_tree = TreeInitialize(data_raw)
     _ = random_tree.random_binary_tree()
+
     data = data_raw.groupby(['user_ID', 'timestamp'])['item_ID'].apply(list).reset_index()
     data['behaviors'] = data_raw.groupby(['user_ID',
                                          'timestamp'])['behavior_type'].apply(list).reset_index()['behavior_type']
@@ -71,8 +73,10 @@ def data_process():
     mask_length = data.behavior_num.max()
     data = data[data.behavior_num >= 10]
     data = data.drop(columns=['behavior_num'])
+
     data['item_ID'] = _mask_padding(data['item_ID'], mask_length)
     data['behaviors'] = _mask_padding(data['behaviors'], mask_length)
+
     data_train, data_validate, data_test = data[:-200], data[-200:-100], data[-100:]
     cache = (user_dict, item_dict, behavior_dict, random_tree)
     return data_train, data_validate.reset_index(drop=True), data_test.reset_index(drop=True), cache

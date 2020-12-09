@@ -12,7 +12,7 @@
       <paths name="chenbin@10.177.74.200:22">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/home/chenbin/TDM" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>

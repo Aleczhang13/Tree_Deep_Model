@@ -2,8 +2,8 @@ from sample_init import data_process, tree_generate_samples, merge_samples, Data
 from deep_network import NeuralNet
 from prediction import metrics_count
 from construct_tree import TreeLearning
-
-
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = '6,7,8'
 def main():
     data_train, data_val, data_test, cache = data_process()
     _, _, _, tree = cache
